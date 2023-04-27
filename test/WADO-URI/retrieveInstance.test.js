@@ -31,7 +31,7 @@ async function isJpeg2000Exist() {
     return dataLength > 0;
 }
 
-describe("WADO-RS Retrieve Instance Resources", () => {
+describe("WADO-URI Retrieve Instance Resources", () => {
 
     before(async ()=> {
         if (!await isJpeg2000Exist()) {
@@ -78,7 +78,7 @@ describe("WADO-RS Retrieve Instance Resources", () => {
         
     });
 
-    it("should return 204", async() => {
+    it("should return 404", async() => {
 
         let params = new URLSearchParams();
         params.append("requestType", "WADO");
@@ -94,7 +94,7 @@ describe("WADO-RS Retrieve Instance Resources", () => {
         const response = await request.get(retrieveUrl)
                                       .set("Accept", "application/dicom");
         
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(404);
         expect(response.headers["content-type"]).to.equal("application/dicom+json");
         
     });
