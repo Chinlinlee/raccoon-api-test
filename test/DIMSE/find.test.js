@@ -261,6 +261,117 @@ class DimseStudyTester {
         });
 
     }
+
+    testStudyTime() {
+        it("should search StudyDate exact (eq, 110509.997000) successful, return 1 study", async () => {
+
+            let cmd = [
+                "-aet",
+                "ANYSCU",
+                "-aec",
+                config.DIMSE.aec,
+                "-v",
+                config.DIMSE.ip,
+                config.DIMSE.port,
+                "-S",
+                "-k",
+                "0008,0052=STUDY",
+                "-k",
+                `0008,0030=${studyCollection[0].StudyTime}`
+            ];
+
+            console.log(`do findscu: ${cmd.join(" ")}`);
+
+            let { stdout, stderr } = spawnSync("findscu", cmd);
+
+            let stderrStr = iconv.decode(stderr, "big5");
+            expect(stderrStr).have.string("Find Response: 1 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 2 (Pending)");
+
+        });
+
+        it("should search StudyDate between (0900-1100) successful, return 4 studies", async function () {
+
+            let cmd = [
+                "-aet",
+                "ANYSCU",
+                "-aec",
+                config.DIMSE.aec,
+                "-v",
+                config.DIMSE.ip,
+                config.DIMSE.port,
+                "-S",
+                "-k",
+                "0008,0052=STUDY",
+                "-k",
+                `0008,0030=0900-1100`
+            ];
+
+            console.log(`do findscu: ${cmd.join(" ")}`);
+
+            let { stdout, stderr } = spawnSync("findscu", cmd);
+
+            let stderrStr = iconv.decode(stderr, "big5");
+            expect(stderrStr).have.string("Find Response: 4 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 5 (Pending)");
+
+        });
+
+        it("should search StudyDate start from (1000-) successful, return 3 studies", async function () {
+
+            let cmd = [
+                "-aet",
+                "ANYSCU",
+                "-aec",
+                config.DIMSE.aec,
+                "-v",
+                config.DIMSE.ip,
+                config.DIMSE.port,
+                "-S",
+                "-k",
+                "0008,0052=STUDY",
+                "-k",
+                `0008,0030=1000-`
+            ]
+
+            console.log(`do findscu: ${cmd.join(" ")}`);
+
+            let { stdout, stderr } = spawnSync("findscu", cmd);
+
+            let stderrStr = iconv.decode(stderr, "big5");
+
+            expect(stderrStr).have.string("Find Response: 3 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 4 (Pending)");
+
+        });
+
+        it("should search StudyDate end to (-1000) successful, return 2 studies", async function () {
+
+            let cmd = [
+                "-aet",
+                "ANYSCU",
+                "-aec",
+                config.DIMSE.aec,
+                "-v",
+                config.DIMSE.ip,
+                config.DIMSE.port,
+                "-S",
+                "-k",
+                "0008,0052=STUDY",
+                "-k",
+                `0008,0030=-1000`
+            ]
+
+            console.log(`do findscu: ${cmd.join(" ")}`);
+
+            let { stdout, stderr } = spawnSync("findscu", cmd);
+
+            let stderrStr = iconv.decode(stderr, "big5");
+            expect(stderrStr).have.string("Find Response: 2 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 3 (Pending)");
+
+        });
+    }
 }
 
 class DimseSeriesTester {
@@ -464,6 +575,7 @@ describe("Test DIMSE C-FIND SCP", () => {
 
     let studyTester = new DimseStudyTester();
     studyTester.testAccessionNumber();
+    studyTester.testStudyDate();
     studyTester.testStudyDate();
 
     let seriesTester = new DimseSeriesTester();
