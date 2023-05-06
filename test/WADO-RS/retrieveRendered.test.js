@@ -16,30 +16,6 @@ const instanceID = "2.16.840.1.113995.3.110.3.0.10118.2000002.862753.1";
 
 describe("WADO-RS Retrieve Transaction Rendered Resources", () => {
 
-    before(async ()=> {
-        let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/${
-            wsiDICOM.studyID
-        }/series/${
-            wsiDICOM.seriesID
-        }/instances`, config.DICOMwebServer.baseUrl);
-        let searchResponse = await axios.get(searchURL.href, {
-            headers: { 'Accept': 'application/dicom+json'}
-        });
-        let dataLength = _.get(searchResponse, "data.length");
-        if (dataLength >= 5) {
-            return;
-        }
-        let dicomFileDir = path.join(__dirname, "../../dicomFiles");
-        let files = glob.sync("multiframes-wsi/*.dcm", {
-            cwd: dicomFileDir
-        });
-        for (let i = 0 ; i< files.length; i++) {
-            let file = path.join(dicomFileDir, files[i]);
-            console.log(`store DICOM ${i+1}/${files.length} to DICOMWeb server`);
-            await storeInstance(file);
-        }
-    });
-
     describe("Retrieve Rendered Study", () => {
         it("should retrieve successful and return 17 rendered instances in multipart", async ()=> {
             let retrieveStudyURL = new URL(`${config.DICOMwebServer.wadoPrefix}/studies/${studyID}/rendered`, config.DICOMwebServer.baseUrl);

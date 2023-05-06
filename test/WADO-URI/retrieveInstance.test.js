@@ -1,7 +1,6 @@
 const _ = require("lodash");
 const { expect } = require("chai");
 const path = require("path");
-const { storeInstance } = require("../../utils/storeInstance");
 const axios = require('axios').default;
 const { URL, URLSearchParams } = require('url');
 const { config } = require('../../config/config');
@@ -18,28 +17,7 @@ const jpeg2000StudyUID = studyCollection[4].studyID;
 const jpeg2000SeriesUID = studyCollection[4].seriesID;
 const jpeg2000InstanceUID = studyCollection[4].instanceID;
 
-async function isJpeg2000Exist() {
-    let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/${
-        jpeg2000StudyUID
-    }/series/${
-        jpeg2000SeriesUID
-    }/instances`, config.DICOMwebServer.baseUrl);
-    let searchResponse = await axios.get(searchURL.href, {
-        headers: { 'Accept': 'application/dicom+json'}
-    });
-    let dataLength = _.get(searchResponse, "data.length");
-    return dataLength > 0;
-}
-
 describe("WADO-URI Retrieve Instance Resources", () => {
-
-    before(async ()=> {
-        if (!await isJpeg2000Exist()) {
-            let dicomFilename = path.join(__dirname, "../../dicomFiles/jpeg2000/example-jpeg-2000.dcm");
-            console.log("upload jpeg2000 DICOM file");
-            await storeInstance(dicomFilename);
-        }
-    });
 
     it("should retrieve instance with DICOM format", async() => {
         

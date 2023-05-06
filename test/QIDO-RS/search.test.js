@@ -162,7 +162,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
 
-        it("should search StudyDate (tag, 00080020) between (20060101-20201231) successful, return 4 studies", async function() {
+        it("should search StudyDate (tag, 00080020) between (20060101-20201231) successful, return 5 studies", async function() {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `20060101-20201231`);
             let searchResponse = await axios.get(searchURL.href, {
@@ -170,10 +170,10 @@ class ParametersTester {
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(4);
+            expect(searchResponse.data.length).to.equal(5);
         });
 
-        it("should search StudyDate (tag, 00080020) start from (20090101-) successful, return 3 studies", async function() {
+        it("should search StudyDate (tag, 00080020) start from (20090101-) successful, return 4 studies", async function() {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `20090101-`);
             let searchResponse = await axios.get(searchURL.href, {
@@ -181,7 +181,7 @@ class ParametersTester {
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(3);
+            expect(searchResponse.data.length).to.equal(4);
         });
         it("should search StudyDate (tag, 00080020) end to (-20090101) successful, return 2 studies", async function() {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
@@ -195,7 +195,7 @@ class ParametersTester {
         });
     }
 
-    
+
     /**
      * Test the (keyword) "Modality" and (tag) 00080060 of search parameters
      */
@@ -344,14 +344,14 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
     //#region All Studies
     describe("All Studies, /studies", () => {
         
-        it("should search successful and return 4 studies", async()=> {
+        it("should search successful and return 5 studies", async()=> {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(4);
+            expect(searchResponse.data.length).to.equal(5);
         });
     });
     //#endregion
@@ -404,14 +404,14 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
 
     //region All Series
     describe("All Series, /series", ()=> {
-        it("should search successful and return 5 series", async() => {
+        it("should search successful and return 6 series", async() => {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/series/`, config.DICOMwebServer.baseUrl);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(5);
+            expect(searchResponse.data.length).to.equal(6);
         });
     });
     //#endregion
@@ -449,14 +449,14 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
 
     //#region All Instances
     describe("All Instances, /instances", ()=> {
-        it("should search successful and return 15 instance", async() => {
+        it("should search successful and return 16 instance", async() => {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/instances`, config.DICOMwebServer.baseUrl);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(15);
+            expect(searchResponse.data.length).to.equal(16);
         });
     });
     //#endregion
@@ -486,6 +486,8 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
         describe("Test the (keyword) 'StudyDate' and (tag) 00080020 of search parameters", ()=> {
             parametersTester.testStudyDate();
         });
+
+        //TODO Study Time query
     });
 
     describe("Search Parameters, Series level", ()=> {

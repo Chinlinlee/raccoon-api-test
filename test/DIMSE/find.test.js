@@ -178,7 +178,7 @@ class DimseStudyTester {
 
         });
 
-        it("should search StudyDate between (20060101-20201231) successful, return 4 studies", async function () {
+        it("should search StudyDate between (20060101-20201231) successful, return 5 studies", async function () {
 
             let cmd = [
                 "-aet",
@@ -200,12 +200,12 @@ class DimseStudyTester {
             let { stdout, stderr } = spawnSync("findscu", cmd);
 
             let stderrStr = iconv.decode(stderr, "big5");
-            expect(stderrStr).have.string("Find Response: 4 (Pending)");
-            expect(stderrStr).not.have.string("Find Response: 5 (Pending)");
+            expect(stderrStr).have.string("Find Response: 5 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 6 (Pending)");
 
         });
 
-        it("should search StudyDate start from (20090101-) successful, return 3 studies", async function () {
+        it("should search StudyDate start from (20090101-) successful, return 4 studies", async function () {
 
             let cmd = [
                 "-aet",
@@ -228,8 +228,8 @@ class DimseStudyTester {
 
             let stderrStr = iconv.decode(stderr, "big5");
 
-            expect(stderrStr).have.string("Find Response: 3 (Pending)");
-            expect(stderrStr).not.have.string("Find Response: 4 (Pending)");
+            expect(stderrStr).have.string("Find Response: 4 (Pending)");
+            expect(stderrStr).not.have.string("Find Response: 5 (Pending)");
 
         });
 
@@ -452,8 +452,8 @@ describe("Test DIMSE C-FIND SCP", () => {
         let { stdout, stderr } = spawnSync("findscu", cmd);
 
         let stderrStr = iconv.decode(stderr, "big5");
-        expect(stderrStr).have.string("Find Response: 3 (Pending)");
-        expect(stderrStr).not.have.string("Find Response: 4 (Pending)");
+        expect(stderrStr).have.string("Find Response: 4 (Pending)");
+        expect(stderrStr).not.have.string("Find Response: 5 (Pending)");
     });
 
     let patientTester = new DimsePatientTester();
