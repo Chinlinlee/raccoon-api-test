@@ -8,6 +8,11 @@ module.exports.config = {
     },
     "DIMSE": {
         "aec": "DCMQRSCP",
+        "move": {
+            "aem": "MOVESCU",
+            "port": "1234",
+            "outputDir": "/receive"
+        },
         "ip": "127.0.0.1",
         "port": "11112"
     }
