@@ -241,6 +241,20 @@ class ParametersTester {
         });
     }
 
+    testModalitiesInStudy() {
+        it("should search ModalitiesInStudy(00080061) equal `ANN` successful, return 1 study and contains 'SM, ANN'", async()=>{
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            searchURL.searchParams.append("00080061", "ANN");
+            let searchResponse = await axios.get(searchURL.href, {
+                headers: { 'Accept': 'application/dicom+json'}
+            });
+            expect(searchResponse.status).to.equal(200);
+            expect(searchResponse).to.have.property("data");
+            expect(searchResponse.data.length).to.equal(1);
+            expect(searchResponse.data[0]).to.have.nested.property("00080061.Value").to.have.members(["SM", "ANN"]);
+        });
+    }
+
 
     /**
      * Test the (keyword) "Modality" and (tag) 00080060 of search parameters
@@ -450,14 +464,14 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
 
     //region All Series
     describe("All Series, /series", ()=> {
-        it("should search successful and return 6 series", async() => {
+        it("should search successful and return 7 series", async() => {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/series/`, config.DICOMwebServer.baseUrl);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(6);
+            expect(searchResponse.data.length).to.equal(7);
         });
     });
     //#endregion
@@ -502,7 +516,7 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
             });
             expect(searchResponse.status).to.equal(200);
             expect(searchResponse).to.have.property("data");
-            expect(searchResponse.data.length).to.equal(16);
+            expect(searchResponse.data.length).to.equal(17);
         });
     });
     //#endregion
@@ -535,6 +549,10 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
 
         describe("Test the 'StudyTime' of search parameters", ()=> {
             parametersTester.testStudyTime();
+        });
+
+        describe("Test the 'ModalitiesInStudy' of search parameters", ()=> {
+            parametersTester.testModalitiesInStudy();
         });
     });
 
