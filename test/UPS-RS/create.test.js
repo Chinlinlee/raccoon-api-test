@@ -1,0 +1,480 @@
+const { expect } = require("chai");
+const fs = require('fs');
+const path = require('path');
+const axios = require("axios").default;
+const { config } = require("../../config/config");
+const _ = require("lodash");
+
+/**
+ * @see {@link https://github.com/microsoft/dicom-server/blob/main/docs/resources/Conformance-as-Postman.postman_collection.json| microsoft/dicom-server conformance as postman}
+ */
+let workItemTestData = [
+    {
+        "00081080": {
+            "vr": "LO",
+            "Value": [
+                "Admitting Diagnoses Description"
+            ]
+        },
+        "00081084": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Code Meaning"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00081195": {
+            "vr": "UI"
+        },
+        "00100010": {
+            "vr": "PN",
+            "Value": [
+                {
+                    "Alphabetic": "Last^First"
+                }
+            ]
+        },
+        "00100020": {
+            "vr": "LO",
+            "Value": [
+                "11111"
+            ]
+        },
+        "00100021": {
+            "vr": "LO"
+        },
+        "00100024": {
+            "vr": "SQ"
+        },
+        "00100030": {
+            "vr": "DA",
+            "Value": [
+                "20000101"
+            ]
+        },
+        "00100040": {
+            "vr": "CS",
+            "Value": [
+                "F"
+            ]
+        },
+        "00101002": {
+            "vr": "SQ"
+        },
+        "00104000": {
+            "vr": "LT",
+            "Value": [
+                "Patient Comments"
+            ]
+        },
+        "00321033": {
+            "vr": "LO",
+            "Value": [
+                "123"
+            ]
+        },
+        "00380010": {
+            "vr": "LO",
+            "Value": [
+                "11111"
+            ]
+        },
+        "00380014": {
+            "vr": "SQ",
+            "Value": [
+                {}
+            ]
+        },
+        "00400400": {
+            "vr": "LT"
+        },
+        "00401001": {
+            "vr": "SH",
+            "Value": [
+                "123"
+            ]
+        },
+        "00404005": {
+            "vr": "DT",
+            "Value": [
+                "20211202115531.193"
+            ]
+        },
+        "00404010": {
+            "vr": "DT",
+            "Value": [
+                "20211202115531.193"
+            ]
+        },
+        "00404018": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC123"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "123ABC"
+                        ]
+                    },
+                    "00080103": {
+                        "vr": "SH",
+                        "Value": [
+                            "1.0"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Requested procedure"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00404021": {
+            "vr": "SQ"
+        },
+        "00404025": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC_123"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "123ABC"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Station name"
+                        ]
+                    }
+                },
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "DEF_456"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "123ABC"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Station name"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00404026": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "AAA"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Station class"
+                        ]
+                    }
+                },
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "AAA"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Station class"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00404027": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC_1"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "DEF"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Geographic location"
+                        ]
+                    }
+                },
+                {
+                    "00080100": {
+                        "vr": "SH",
+                        "Value": [
+                            "ABC_2"
+                        ]
+                    },
+                    "00080102": {
+                        "vr": "SH",
+                        "Value": [
+                            "DEF"
+                        ]
+                    },
+                    "00080104": {
+                        "vr": "LO",
+                        "Value": [
+                            "Geographic location"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00404041": {
+            "vr": "CS",
+            "Value": [
+                "READY"
+            ]
+        },
+        "0040A370": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00080050": {
+                        "vr": "SH",
+                        "Value": [
+                            "1234567"
+                        ]
+                    },
+                    "00080051": {
+                        "vr": "SQ"
+                    },
+                    "00080090": {
+                        "vr": "PN",
+                        "Value": [
+                            {
+                                "Alphabetic": "Last^First^^Dr"
+                            }
+                        ]
+                    },
+                    "0020000D": {
+                        "vr": "UI",
+                        "Value": [
+                            "2.25.00000000000000000000000000000000"
+                        ]
+                    },
+                    "00321060": {
+                        "vr": "LO",
+                        "Value": [
+                            "Requested procedure description"
+                        ]
+                    },
+                    "00321064": {
+                        "vr": "SQ",
+                        "Value": [
+                            {
+                                "00080100": {
+                                    "vr": "SH",
+                                    "Value": [
+                                        "GHI123"
+                                    ]
+                                },
+                                "00080102": {
+                                    "vr": "SH",
+                                    "Value": [
+                                        "789JKL"
+                                    ]
+                                },
+                                "00080104": {
+                                    "vr": "LO",
+                                    "Value": [
+                                        "Requested procedure"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "00400026": {
+                        "vr": "SQ"
+                    },
+                    "00400027": {
+                        "vr": "SQ"
+                    },
+                    "00401001": {
+                        "vr": "SH",
+                        "Value": [
+                            "123"
+                        ]
+                    },
+                    "00401400": {
+                        "vr": "LT",
+                        "Value": [
+                            "Requested Cataract surgery procedure comments"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00741000": {
+            "vr": "CS",
+            "Value": [
+                "SCHEDULED"
+            ]
+        },
+        "00741002": {
+            "vr": "SQ"
+        },
+        "00741200": {
+            "vr": "CS",
+            "Value": [
+                "MEDIUM"
+            ]
+        },
+        "00741202": {
+            "vr": "LO",
+            "Value": [
+                "WORKLIST"
+            ]
+        },
+        "00741204": {
+            "vr": "LO",
+            "Value": [
+                "Scheduled procedure step description"
+            ]
+        },
+        "00741210": {
+            "vr": "SQ"
+        },
+        "00741216": {
+            "vr": "SQ"
+        },
+        "0040e020": {
+            "vr": "CS",
+            "Value": [
+                "Type of Instances"
+            ]
+        },
+        "00081199": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00081150": {
+                        "vr": "UI",
+                        "Value": [
+                            "2.5.0000000"
+                        ]
+                    },
+                    "00081155": {
+                        "vr": "UI",
+                        "Value": [
+                            "2.5.1000000"
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+];
+
+describe("UPS-RS", () => {
+
+    it("should store the workitem successfully", async () => {
+        let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
+        createURL.searchParams.append("workitem", "2.25.304735844106676112282377091360345596551");
+        let createResponse = await axios.post(createURL.href, workItemTestData, {
+            headers: { 'Accept': 'application/dicom+json'}
+        });
+
+        expect(createResponse.status).to.equal(201);
+    });
+
+    it("should raise error because of `UPSNotSchedule`", async () => {
+        let clonedTestData = _.cloneDeep(workItemTestData);
+        clonedTestData[0]["00741000"]["Value"] = ["COMPLETED"];
+
+        let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
+        let status;
+        let data;
+        try {
+            await axios.post(createURL.href, clonedTestData, {
+                headers: { 'Accept': 'application/dicom+json'}
+            });
+        } catch(e) {
+            status = e.response.status;
+            data = e.response.data;
+        }
+
+        expect(status).to.equal(400);
+        expect(data).to.have.property("status").equal("C309");
+    });
+
+    it("should raise error because `Duplicate UPS Instance UID`", async () => {
+        let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
+        createURL.searchParams.append("workitem", "2.25.304735844106676112282377091360345596551");
+        let status;
+        let data;
+        try {
+            await axios.post(createURL.href, workItemTestData, {
+                headers: { 'Accept': 'application/dicom+json'}
+            });
+        } catch(e) {
+            status = e.response.status;
+            data = e.response.data;
+        }
+        
+        expect(status).to.equal(400);
+        expect(data).to.have.property("status").equal("0111");
+    });
+
+});

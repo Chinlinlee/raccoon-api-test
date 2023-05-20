@@ -4,7 +4,8 @@ module.exports.config = {
         "qidoPrefix": "",
         "wadoPrefix": "",
         "stowPrefix": "",
-        "wadoUriPrefix": "wado"
+        "wadoUriPrefix": "wado",
+        "upsPrefix": ""
     },
     "DIMSE": {
         "aec": "DCMQRSCP",

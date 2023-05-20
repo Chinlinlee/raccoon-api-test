@@ -17,7 +17,8 @@ module.exports = {
         "test/WADO-URI/retrieveInstance.test.js",
         "test/DIMSE/store-instnace.test.js",
         "test/DIMSE/find.test.js",
-        "test/DIMSE/move.test.js"
+        "test/DIMSE/move.test.js",
+        "test/UPS-RS/create.test.js"
     ],
     "sort": false
 }
