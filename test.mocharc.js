@@ -18,7 +18,8 @@ module.exports = {
         "test/DIMSE/store-instnace.test.js",
         "test/DIMSE/find.test.js",
         "test/DIMSE/move.test.js",
-        "test/UPS-RS/create.test.js"
+        "test/UPS-RS/create.test.js",
+        "test/UPS-RS/get.test.js",
     ],
     "sort": false
 }

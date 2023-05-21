@@ -7,7 +7,7 @@ const _ = require("lodash");
 let { workItemTestData1 } = require("../../utils/ups-collection");
 
 
-describe("UPS-RS", () => {
+describe("UPS-RS Create", () => {
 
     it("should store the workitem successfully", async () => {
         let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
