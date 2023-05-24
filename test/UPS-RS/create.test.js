@@ -4,14 +4,14 @@ const path = require('path');
 const axios = require("axios").default;
 const { config } = require("../../config/config");
 const _ = require("lodash");
-let { workItemTestData1 } = require("../../utils/ups-collection");
+let { workItemTestData1, upsInstanceUID1 } = require("../../utils/ups-collection");
 
 
 describe("UPS-RS Create", () => {
 
     it("should store the workitem successfully", async () => {
         let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
-        createURL.searchParams.append("workitem", "2.25.304735844106676112282377091360345596551");
+        createURL.searchParams.append("workitem", upsInstanceUID1);
         let createResponse = await axios.post(createURL.href, workItemTestData1, {
             headers: { 'Accept': 'application/dicom+json'}
         });
@@ -41,7 +41,7 @@ describe("UPS-RS Create", () => {
 
     it("should raise error because `Duplicate UPS Instance UID`", async () => {
         let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
-        createURL.searchParams.append("workitem", "2.25.304735844106676112282377091360345596551");
+        createURL.searchParams.append("workitem", upsInstanceUID1);
         let status;
         let data;
         try {

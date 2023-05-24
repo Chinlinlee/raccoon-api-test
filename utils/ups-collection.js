@@ -419,3 +419,7 @@ module.exports.workItemTestData1 = [
         }
     }
 ];
+
+module.exports.upsInstanceUID1 = "2.25.304735844106676112282377091360345596551";
+
+module.exports.transactionUID1 = "2.25.263567342483919614077922593493084515368";

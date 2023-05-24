@@ -20,6 +20,8 @@ module.exports = {
         "test/DIMSE/move.test.js",
         "test/UPS-RS/create.test.js",
         "test/UPS-RS/get.test.js",
+        "test/UPS-RS/update.test.js",
+        "test/UPS-RS/change-state.test.js"
     ],
     "sort": false
 }
