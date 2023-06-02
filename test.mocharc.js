@@ -19,6 +19,7 @@ module.exports = {
         "test/DIMSE/find.test.js",
         "test/DIMSE/move.test.js",
         "test/UPS-RS/create.test.js",
+        "test/UPS-RS/subscribe.test.js",
         "test/UPS-RS/get.test.js",
         "test/UPS-RS/update.test.js",
         "test/UPS-RS/change-state.test.js"

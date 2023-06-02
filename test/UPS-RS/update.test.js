@@ -12,11 +12,11 @@ describe("UPS-RS Update", () => {
         let clonedTestWorkItem = _.cloneDeep(workItemTestData1);
         let updateURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}`, config.DICOMwebServer.baseUrl);
         clonedTestWorkItem[0]["00741202"]["Value"] = ["MODIFIED"];
-        let createResponse = await axios.post(updateURL.href, clonedTestWorkItem, {
+        let updateResponse = await axios.post(updateURL.href, clonedTestWorkItem, {
             headers: { 'Accept': 'application/dicom+json' }
         });
 
-        expect(createResponse.status).to.equal(200);
+        expect(updateResponse.status).to.equal(200);
 
         let retrieveURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}`, config.DICOMwebServer.baseUrl)
         let retrieveResponse = await axios.get(retrieveURL.href, {
