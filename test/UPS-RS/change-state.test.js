@@ -4,44 +4,58 @@ const path = require('path');
 const axios = require("axios").default;
 const { config } = require("../../config/config");
 const _ = require("lodash");
+const { WebSocket } = require("ws");
 const dayjs = require("dayjs");
 const customParseFormat = require("dayjs/plugin/customParseFormat");
 dayjs.extend(customParseFormat);
 let { workItemTestData1, upsInstanceUID1, transactionUID1 } = require("../../utils/ups-collection");
 
 describe("UPS-RS Change Workitem State to IN PROGRESS", () => {
-    it("should change workitem state to `IN PROGRESS`", async () => {
+    it("should change workitem state to `IN PROGRESS` and receive change state event in ws", async () => {
+        return new Promise(async resolve => {
 
-        const inProgressBody = [
-            {
-                "00741000": {
-                    "vr": "CS",
-                    "Value": [
-                        "IN PROGRESS"
-                    ]
-                },
-                "00081195": {
-                    "vr": "UI",
-                    "Value": [
-                        `${transactionUID1}`
-                    ]
+            let subscribeURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/1.2.840.10008.5.1.4.34.5/subscribers/${config.DICOMwebServer.upsAeTitle}`, config.DICOMwebServer.baseUrl);
+            let ws = new WebSocket(`ws://${subscribeURL.host}/ws/subscribers/${config.DICOMwebServer.upsAeTitle}`);
+            ws.on("message", function (data) {
+                let receivedData = JSON.parse(data);
+                expect(receivedData).to.have.property("00741000").have.property("Value").is.an("array").and.has.members(["IN PROGRESS"]);
+                expect(receivedData).to.have.property("00404041").have.property("Value").is.an("array");
+                ws.close();
+                return resolve();
+            });
+
+            const inProgressBody = [
+                {
+                    "00741000": {
+                        "vr": "CS",
+                        "Value": [
+                            "IN PROGRESS"
+                        ]
+                    },
+                    "00081195": {
+                        "vr": "UI",
+                        "Value": [
+                            `${transactionUID1}`
+                        ]
+                    }
                 }
-            }
-        ];
+            ];
 
-        let changeStateURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}/state`, config.DICOMwebServer.baseUrl);
-        let changeStateResponse = await axios.put(changeStateURL.href, inProgressBody, {
-            headers: { 'Accept': 'application/dicom+json' }
+            let changeStateURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}/state`, config.DICOMwebServer.baseUrl);
+            let changeStateResponse = await axios.put(changeStateURL.href, inProgressBody, {
+                headers: { 'Accept': 'application/dicom+json' }
+            });
+
+            expect(changeStateResponse.status).to.equal(200);
+
+            let retrieveURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}`, config.DICOMwebServer.baseUrl)
+            let retrieveResponse = await axios.get(retrieveURL.href, {
+                headers: { 'Accept': 'application/dicom+json' }
+            });
+            expect(retrieveResponse.data[0]).have.property("00741000").have.property("Value").have.members(["IN PROGRESS"]);
+            expect(retrieveResponse.data[0]).not.have.property("00081195");
         });
 
-        expect(changeStateResponse.status).to.equal(200);
-
-        let retrieveURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}`, config.DICOMwebServer.baseUrl)
-        let retrieveResponse = await axios.get(retrieveURL.href, {
-            headers: { 'Accept': 'application/dicom+json'}
-        });
-        expect(retrieveResponse.data[0]).have.property("00741000").have.property("Value").have.members(["IN PROGRESS"]);
-        expect(retrieveResponse.data[0]).not.have.property("00081195");
     });
 });
 
@@ -66,7 +80,7 @@ describe("UPS-RS Change Workitem State to COMPLETED", () => {
         ];
 
         let changeStateURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}/state`, config.DICOMwebServer.baseUrl);
-        
+
         let status;
         try {
             await axios.put(changeStateURL.href, inProgressBody, {
@@ -166,7 +180,7 @@ describe("UPS-RS Change Workitem State to COMPLETED", () => {
 
         let retrieveURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}`, config.DICOMwebServer.baseUrl)
         let retrieveResponse = await axios.get(retrieveURL.href, {
-            headers: { 'Accept': 'application/dicom+json'}
+            headers: { 'Accept': 'application/dicom+json' }
         });
         // have Station Name Code Sequence
         expect(retrieveResponse.data[0]).have.property("00741216").have.property("Value").to.have.deep.nested.property("[0].00404028");
@@ -194,7 +208,7 @@ describe("UPS-RS Change Workitem State to COMPLETED", () => {
         ];
 
         let changeStateURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems/${upsInstanceUID1}/state`, config.DICOMwebServer.baseUrl);
-        
+
         let changeStateRes = await axios.put(changeStateURL.href, inProgressBody, {
             headers: { 'Accept': 'application/dicom+json' }
         });

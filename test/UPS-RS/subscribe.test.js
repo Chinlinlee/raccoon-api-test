@@ -37,11 +37,10 @@ describe("UPS-RS Subscription", () => {
             let ws = new WebSocket(`ws://${subscribeURL.host}/ws/subscribers/${config.DICOMwebServer.upsAeTitle}`);
             ws.on("message", function (data) {
                 let receivedData = JSON.parse(data);
-                console.log(JSON.stringify(receivedData));
                 expect(receivedData).to.have.property("00741002").have.property("Value").is.an("array");
                 ws.close();
                 return resolve();
-            }); 
+            });
 
             let workItemTestData1Cloned = _.cloneDeep(workItemTestData1);
             workItemTestData1Cloned[0]["00741002"] = {
