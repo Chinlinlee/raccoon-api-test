@@ -183,7 +183,7 @@ class ParametersTester {
             expect(searchResponse).to.have.property("data");
             expect(searchResponse.data.length).to.equal(4);
         });
-        it("should search StudyDate (tag, 00080020) end to (-20090101) successful, return 2 studies", async function() {
+        it("should search StudyDate (tag, 00080020) end to (-20091231) successful, return 2 studies", async function() {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `-20091231`);
             let searchResponse = await axios.get(searchURL.href, {
