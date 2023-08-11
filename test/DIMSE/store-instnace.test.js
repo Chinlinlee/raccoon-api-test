@@ -7,7 +7,7 @@ const { config } = require("../../config/config");
 describe("Test DIMSE C-STORE SCP", ()=> {
 
     it("Should using `dcmsend` send DICOM files successfully", () => {
-        let { stdout, stderr } = spawnSync("dcmsend", [
+        let cmd = [
             "-aet",
             "ANYSCU",
             "-aec",
@@ -20,7 +20,9 @@ describe("Test DIMSE C-STORE SCP", ()=> {
             "+r",
             "+sp",
             "*.dcm"
-        ]);
+        ];
+        console.log(`do dcmsend: ${cmd.join(" ")}`)
+        let { stdout, stderr } = spawnSync("dcmsend", cmd);
 
         let stderrStr = iconv.decode(stderr, "big5");
         expect(stderrStr).have.string("with status SUCCESS  : 5");
