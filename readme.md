@@ -3,6 +3,7 @@ This repo is used to test the basic functionality of raccoon's DICOMweb APIs to 
 - Please refer to the `test` folder for the main testing procedures.
 
 ## Configuration
+- path: `config/config.js`
 - The following is the example configuration for raccoon's DICOMweb APIs.
 ```js
 module.exports.config = {
