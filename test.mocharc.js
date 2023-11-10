@@ -18,12 +18,13 @@ module.exports = {
         "test/DIMSE/store-instnace.test.js",
         "test/DIMSE/find.test.js",
         "test/DIMSE/move.test.js",
+        "test/DIMSE/tls.test.js",
         "test/UPS-RS/create.test.js",
         "test/UPS-RS/subscribe.test.js",
         "test/UPS-RS/get.test.js",
         "test/UPS-RS/update.test.js",
         "test/UPS-RS/change-state.test.js",
-        "test/QIDO-RS/search.seq.test.js"
+        "test/QIDO-RS/search.seq.test.js",
     ],
     "sort": false
 }

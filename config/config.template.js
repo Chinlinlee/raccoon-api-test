@@ -15,6 +15,12 @@ module.exports.config = {
             "outputDir": "/receive"
         },
         "ip": "127.0.0.1",
-        "port": "11112"
+        "port": "11112",
+        "tls": {
+            // The tls use dcm4che store scp to test, please download dcm4che
+            "enabled": false,
+            "key": "",
+            "dcm4che-storescp-bin-path": ""
+        }
     }
 }
