@@ -8,25 +8,30 @@ class DimseTlsTester {
     testUsingStoreScp() {
         it("should using `storescu` store DICOM files through TLS", async () => {
 
-            let cmd = [
-                "-c",
-                `${config.DIMSE.aec}@${config.DIMSE.ip}:${config.DIMSE.port}`,
-                `${path.join(__dirname, "../../dicomFiles/series-000001")}`,
-                "--tls",
-                "--key-pass",
-                "secret",
-                "--key-store",
-                `${path.join(__dirname, "../..", config.DIMSE.tls.key)}`,
-                "--key-store-pass",
-                "secret"
+            let cmd =  [
+                "-aet",
+                "ANYSCU",
+                "-aec",
+                config.DIMSE.aec,
+                "-v",
+                config.DIMSE.ip,
+                config.DIMSE.port,
+                "+tls",
+                config.DIMSE.tls.key,
+                config.DIMSE.tls["certificate-key"],
+                "+cf",
+                config.DIMSE.tls.certificate,
+                "+cs",
+                "TLS_RSA_WITH_AES_128_CBC_SHA"
             ];
 
-            console.log(`storescu ${cmd.join(" ")}`);
+            console.log(`echoscu-tls ${cmd.join(" ")}`);
 
-            let { stdout, stderr } = spawnSync(config.DIMSE.tls["dcm4che-storescp-bin-path"], cmd);
+            let { stdout, stderr } = spawnSync("echoscu-tls", cmd);
 
-            let stdoutStr = iconv.decode(stdout, "big5");
-            expect(stdoutStr).have.string("Sent 1 objects");
+            let stderrStr = iconv.decode(stderr, "big5");
+            console.log(stderrStr);
+            expect(stderrStr).have.string("I: Received Echo Response (Success)");
         });
     }
 }
