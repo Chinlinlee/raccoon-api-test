@@ -81,7 +81,20 @@ module.exports.workItemTestData1 = [
         "00380014": {
             "vr": "SQ",
             "Value": [
-                {}
+                {
+                    "00400031": {
+                        "vr": "UT",
+                        "Value": ["123456789"]
+                    },
+                    "00400032": {
+                        "vr": "UT",
+                        "Value": ["29c737e3-b739-4169-aca7-eea07a808643"]
+                    },
+                    "00400033": {
+                        "vr": "CS",
+                        "Value": ["UUID"]
+                    }
+                }
             ]
         },
         "00400400": {
@@ -412,6 +425,52 @@ module.exports.workItemTestData1 = [
                         "vr": "UI",
                         "Value": [
                             "2.5.1000000"
+                        ]
+                    }
+                }
+            ]
+        },
+        "00404034": {
+            "vr": "SQ",
+            "Value": [
+                {
+                    "00404009": {
+                        "vr": "SQ",
+                        "Value": [
+                            {
+                                "00080100": {
+                                    "vr": "SH",
+                                    "Value": [
+                                        "DR123"
+                                    ]
+                                },
+                                "00080102": {
+                                    "vr": "SH",
+                                    "Value": [
+                                        "789JKL"
+                                    ]
+                                },
+                                "00080104": {
+                                    "vr": "LO",
+                                    "Value": [
+                                        "9Y7WZ3JXV4R6HAF"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "00404036": {
+                        "vr": "LO",
+                        "Value": [
+                            "Dream Home Real Estate Service"
+                        ]
+                    },
+                    "00404037": {
+                        "vr": "PN",
+                        "Value": [
+                            {
+                                "Alphabetic": "Humberto^Funk"
+                            }
                         ]
                     }
                 }
