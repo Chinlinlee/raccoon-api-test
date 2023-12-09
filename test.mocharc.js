@@ -25,7 +25,8 @@ module.exports = {
         "test/UPS-RS/update.test.js",
         "test/UPS-RS/change-state.test.js",
         "test/QIDO-RS/search.seq.test.js",
-        "test/MWL-RS/create.test.js"
+        "test/MWL-RS/create.test.js",
+        "test/MWL-RS/get.test.js"
     ],
     "sort": false
 }
