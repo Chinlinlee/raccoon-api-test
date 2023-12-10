@@ -19,7 +19,7 @@ describe("MWL-RS GET", () => {
         expect(response.data).have.property("length").equal(1);
     });
     it("should query the MWL items with `PatientName` and return 204", async () => {
-        let queryURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
+        let queryURL = new URL(`${config.DICOMwebServer.upsPrefix}/mwlitems`, config.DICOMwebServer.baseUrl);
         queryURL.searchParams.append("PatientName", "123456789foobar");
         let response = await axios.get(queryURL.href, {
             headers: { 'Accept': 'application/dicom+json'}
@@ -39,7 +39,7 @@ describe("MWL-RS GET", () => {
         expect(response.data).have.property("length").equal(1);
     });
     it("should query the MWL items with `Scheduled Procedure Step ID` and return 204", async () => {
-        let queryURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
+        let queryURL = new URL(`${config.DICOMwebServer.upsPrefix}/mwlitems`, config.DICOMwebServer.baseUrl);
         queryURL.searchParams.append("00400100.00400009", "foobarID");
         let response = await axios.get(queryURL.href, {
             headers: { 'Accept': 'application/dicom+json'}
