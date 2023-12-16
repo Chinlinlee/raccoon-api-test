@@ -27,7 +27,8 @@ module.exports = {
         "test/QIDO-RS/search.seq.test.js",
         "test/MWL-RS/create.test.js",
         "test/MWL-RS/get.test.js",
-        "test/MWL-RS/delete.test.js"
+        "test/MWL-RS/delete.test.js",
+        "test/MWL-RS/change-status.test.js"
     ],
     "sort": false
 }
