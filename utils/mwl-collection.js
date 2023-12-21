@@ -4,7 +4,7 @@ module.exports.mwlTestData1 = [
             "vr": "PN",
             "Value": [
                 {
-                    "Alphabetic": "VIVALDI^ANTONIO"
+                    "Alphabetic": "Philips^Amy"
                 }
             ]
         },
