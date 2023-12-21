@@ -10,7 +10,7 @@ describe("MWL-RS GET", () => {
 
     it("should query the MWL items with `PatientName` and return 1 item", async () => {
         let queryURL = new URL(`${config.DICOMwebServer.upsPrefix}/mwlitems`, config.DICOMwebServer.baseUrl);
-        queryURL.searchParams.append("PatientName", "Philips^Amy");
+        queryURL.searchParams.append("PatientName", mwlTestData1[0]["00100010"].Value[0].Alphabetic);
         let response = await axios.get(queryURL.href, {
             headers: { 'Accept': 'application/dicom+json'}
         });
