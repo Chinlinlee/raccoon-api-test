@@ -27,6 +27,7 @@ module.exports = {
         "test/QIDO-RS/search.seq.test.js",
         "test/MWL-RS/create.test.js",
         "test/MWL-RS/get.test.js",
+        "test/DIMSE/find-mwl.test.js",
         "test/MWL-RS/change-status.test.js",
         "test/MWL-RS/delete.test.js",
         "test/PAM-RS/create.test.js",
