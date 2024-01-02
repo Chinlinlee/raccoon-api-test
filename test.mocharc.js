@@ -29,7 +29,8 @@ module.exports = {
         "test/MWL-RS/get.test.js",
         "test/MWL-RS/change-status.test.js",
         "test/MWL-RS/delete.test.js",
-        "test/PAM-RS/create.test.js"
+        "test/PAM-RS/create.test.js",
+        "test/PAM-RS/update.test.js"
     ],
     "sort": false
 }
