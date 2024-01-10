@@ -14,7 +14,7 @@ async function storeInstance(filename) {
         method: "POST",
         url: stowURL.href,
         headers: {
-            "Content-Type": "multipart/related; type=application/dicom"
+            "Content-Type": "multipart/related; type=\"application/dicom\""
         },
         multipart: [
             {
