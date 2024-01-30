@@ -15,7 +15,7 @@ class ParametersTester {
     testPatientName() {
         //#region Study
         it("should search PatientName (keyword) successful and return 1 study", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("PatientName", studyCollection[0].PatientName);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -25,7 +25,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
         it("should search PatientName (tag, 00100010) successful and return 1 study", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00100010", studyCollection[0].PatientName);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -38,7 +38,7 @@ class ParametersTester {
 
         //#region Patient
         it("should search PatientName (keyword) successful and return 1 patient", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("PatientName", studyCollection[0].PatientName);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -48,7 +48,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
         it("should search PatientName (tag, 00100010) successful and return 1 patient", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00100010", studyCollection[0].PatientName);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -66,7 +66,7 @@ class ParametersTester {
     testPatientID() {
         //#region Study
         it("should search PatientID (keyword) successful and return 1 study", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("PatientID", studyCollection[0].PatientID);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -76,7 +76,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
         it("should search PatientID (tag, 00100020) and return 1 study", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00100020", studyCollection[0].PatientID);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -89,7 +89,7 @@ class ParametersTester {
 
         //#regino Patient
         it("should search PatientID (keyword) successful and return 1 patient", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/patients`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("PatientID", studyCollection[0].PatientID);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -116,7 +116,7 @@ class ParametersTester {
      */
     testAccessionNumber() {
         it("should search AccessionNumber (keyword) successful and return 1 study", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("AccessionNumber", studyCollection[2].AccessionNumber);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -126,7 +126,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
         it("should search AccessionNumber (tag, 00080050) successful and return 1 study", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080050", studyCollection[2].AccessionNumber);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -142,7 +142,7 @@ class ParametersTester {
      */
     testStudyDate() {
         it("should search StudyDate (keyword) exact (eq, 20090721) successful, return 1 study", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("StudyDate", studyCollection[0].StudyDate);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -152,7 +152,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(1);
         });
         it("should search StudyDate (tag, 00080020) exact (eq, 20090721) successful, return 1 study", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", studyCollection[0].StudyDate);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -163,7 +163,7 @@ class ParametersTester {
         });
 
         it("should search StudyDate (tag, 00080020) between (20060101-20201231) successful, return 5 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `20060101-20201231`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -174,7 +174,7 @@ class ParametersTester {
         });
 
         it("should search StudyDate (tag, 00080020) start from (20090101-) successful, return 4 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `20090101-`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -184,7 +184,7 @@ class ParametersTester {
             expect(searchResponse.data.length).to.equal(4);
         });
         it("should search StudyDate (tag, 00080020) end to (-20091231) successful, return 2 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080020", `-20091231`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -197,7 +197,7 @@ class ParametersTester {
 
     testStudyTime() {
         it("should search StudyTime exact (eq, 110509.997000) successful, return 1 study", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("StudyTime", studyCollection[0].StudyTime);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -208,7 +208,7 @@ class ParametersTester {
         });
 
         it("should search StudyTime between (0900-1100) successful, return 4 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("StudyTime", `0900-1100`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -219,7 +219,7 @@ class ParametersTester {
         });
 
         it("should search StudyTime start from (1000-) successful, return 3 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080030", `1000-`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -230,7 +230,7 @@ class ParametersTester {
         });
 
         it("should search StudyTime end to (-1000) successful, return 2 studies", async function() {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("StudyTime", `-1000`);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -243,7 +243,7 @@ class ParametersTester {
 
     testModalitiesInStudy() {
         it("should search ModalitiesInStudy(00080061) equal `ANN` successful, return 1 study and contains 'SM, ANN'", async()=>{
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00080061", "ANN");
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
@@ -365,7 +365,7 @@ class ParametersTester {
      */
     testCommaValue() {
         it("should search value contains comma successful and return 2 studies", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00100010", `${
                 studyCollection[0].PatientName
             },${
@@ -385,7 +385,7 @@ class ParametersTester {
      */
     testSplatValue() {
         it("should search value contains splat successful and return 1 study", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
             searchURL.searchParams.append("00100010", `${
                 studyCollection[0].PatientName.substring(0,2)
             }*`);
@@ -405,7 +405,8 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
     describe("All Studies, /studies", () => {
         
         it("should search successful and return 5 studies", async()=> {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies`, config.DICOMwebServer.baseUrl);
+            console.log(searchURL.href);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
@@ -465,7 +466,7 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
     //region All Series
     describe("All Series, /series", ()=> {
         it("should search successful and return 7 series", async() => {
-            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/series/`, config.DICOMwebServer.baseUrl);
+            let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/series`, config.DICOMwebServer.baseUrl);
             let searchResponse = await axios.get(searchURL.href, {
                 headers: { 'Accept': 'application/dicom+json'}
             });
@@ -477,7 +478,7 @@ describe("Search Transaction Resources (QIDO-RS)", ()=> {
     //#endregion
 
     //#region Study's Series' Instances
-    describe("Study's Series' Instances, /studies/{studyID}/series/{seriesID}/", ()=> {
+    describe("Study's Series' Instances, /studies/{studyID}/series/{seriesID}/instances", ()=> {
         it("should search successful and return 5 instances", async()=> {
             let searchURL = new URL(`${config.DICOMwebServer.qidoPrefix}/studies/${
                 studyCollection[0].studyID
