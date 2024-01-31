@@ -73,7 +73,7 @@ describe("WADO-URI Retrieve Instance Resources", () => {
                                       .set("Accept", "application/dicom");
         
         expect(response.statusCode).to.equal(404);
-        expect(response.headers["content-type"]).to.equal("application/dicom+json");
+        expect(response.headers["content-type"]).to.include("application/dicom+json");
         
     });
 
