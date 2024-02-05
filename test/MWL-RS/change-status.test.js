@@ -21,8 +21,8 @@ describe("MWL-RS Change mwlitem Status to READY", () => {
                                              .have.property("00400020").have.property("Value").have.members(["READY"]);
     });
 
-    it("should change status of filtered mwlitems with PatientName to `READY`", async () => {
-        let changeStatusUrl = new URL(`${config.DICOMwebServer.upsPrefix}/mwlitems/status/READY`, config.DICOMwebServer.baseUrl);
+    it("should change status of filtered mwlitems with PatientName to `STARTED`", async () => {
+        let changeStatusUrl = new URL(`${config.DICOMwebServer.upsPrefix}/mwlitems/status/STARTED`, config.DICOMwebServer.baseUrl);
         changeStatusUrl.searchParams.append("PatientName", mwlTestData1[0]["00100010"].Value[0].Alphabetic);
         
         let changeStatusResponse = await axios.post(changeStatusUrl.href, {
