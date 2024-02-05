@@ -13,7 +13,10 @@ describe("UPS-RS Create", () => {
         let createURL = new URL(`${config.DICOMwebServer.upsPrefix}/workitems`, config.DICOMwebServer.baseUrl);
         createURL.searchParams.append("workitem", upsInstanceUID1);
         let createResponse = await axios.post(createURL.href, workItemTestData1, {
-            headers: { 'Accept': 'application/dicom+json'}
+            headers: {
+                'Accept': 'application/dicom+json',
+                'Content-Type': 'application/dicom+json'
+            }
         });
 
         expect(createResponse.status).to.equal(201);
@@ -28,9 +31,12 @@ describe("UPS-RS Create", () => {
         let data;
         try {
             await axios.post(createURL.href, clonedTestData, {
-                headers: { 'Accept': 'application/dicom+json'}
+                headers: {
+                    'Accept': 'application/dicom+json',
+                    'Content-Type': 'application/dicom+json'
+                }
             });
-        } catch(e) {
+        } catch (e) {
             status = e.response.status;
             data = e.response.data;
         }
@@ -46,13 +52,16 @@ describe("UPS-RS Create", () => {
         let data;
         try {
             await axios.post(createURL.href, workItemTestData1, {
-                headers: { 'Accept': 'application/dicom+json'}
+                headers: { 
+                    'Accept': 'application/dicom+json',
+                    'Content-Type': 'application/dicom+json'
+                }
             });
-        } catch(e) {
+        } catch (e) {
             status = e.response.status;
             data = e.response.data;
         }
-        
+
         expect(status).to.equal(400);
         expect(data).to.have.property("status").equal("0111");
     });
